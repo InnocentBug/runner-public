@@ -1,0 +1,40 @@
+name: Push to public mirror
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  push-to-other-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Git setup
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+
+      - name: Remove private workflows
+        run: |
+          git rm .github/workflows/public_sync.yml
+          git rm .github/workflows/private_regular.yml
+      - name: Activate public Runs
+        run: |
+          for file in $(find .github/workflows/ -type f); do
+            git mv $file .github/workflows/
+
+      - name: Git commit
+        run: git commit -am "Prepare for Public"
+
+      - name: Push to another repository
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        run: |
+          git remote add public git@github.com:InnocentBug/runner-public.git
+          git push public ${{ github.ref_name }}
