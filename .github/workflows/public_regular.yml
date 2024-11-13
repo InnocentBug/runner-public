@@ -1,5 +1,5 @@
 name: Public Tests
-permission: read-all
+permissions: read-all
 
 on:
   push:
@@ -12,11 +12,19 @@ on:
 
 jobs:
   test:
-    run-on:${{ matrix.os }}
-    matrix:
-      os: [macos-latest]
-      python-version: ["3.10", 3.12]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest]
+        python-version: ["3.10", 3.12]
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
       - name: test
         run: echo "Running Public Test"
