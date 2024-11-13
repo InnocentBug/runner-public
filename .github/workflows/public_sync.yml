@@ -20,8 +20,8 @@ jobs:
 
       - name: Git setup
         run: |
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'action@github.com'
+          git config --global user.name 'InnocentBot'
+          git config --global user.email 'ludwigschneider@uchicago.edu'
 
       - name: Remove private workflows
         run: |
@@ -39,4 +39,4 @@ jobs:
       - name: Push to public
         run: |
           git remote add public git@github.com:InnocentBug/runner-public.git
-          git push public ${{ github.ref_name }}
+          git push --force public ${{ github.ref_name }}
