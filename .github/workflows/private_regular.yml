@@ -11,7 +11,7 @@ on:
       - main
 
 jobs:
-  test:
+  test-private:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

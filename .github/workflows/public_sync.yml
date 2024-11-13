@@ -28,6 +28,7 @@ jobs:
         run: |
           for file in $(find .github/workflows/ -type f); do
             git mv $file .github/workflows/
+            done
 
       - name: Git commit
         run: git commit -am "Prepare for Public"
