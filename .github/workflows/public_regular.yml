@@ -1,0 +1,22 @@
+name: Public Tests
+permission: read-all
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    run-on:${{ matrix.os }}
+    matrix:
+      os: [macos-latest]
+      python-version: ["3.10", 3.12]
+
+    steps:
+      - name: test
+        run: echo "Running Public Test"
