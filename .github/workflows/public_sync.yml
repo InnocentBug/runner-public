@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.BOT_SSH_KEY }}
       - name: Checkout source repository
         uses: actions/checkout@v3
         with:
@@ -36,9 +36,7 @@ jobs:
       - name: Git commit
         run: git commit -am "Prepare for Public"
 
-      - name: Push to another repository
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      - name: Push to public
         run: |
           git remote add public git@github.com:InnocentBug/runner-public.git
           git push public ${{ github.ref_name }}
